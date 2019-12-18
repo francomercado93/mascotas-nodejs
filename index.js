@@ -4,7 +4,7 @@ const port = process.env.PORT || 8080;
 
 const app = express();
 
-let apiRoutes = require('./api-routes');
+let apiRoutes = require('./routes/api-routes');
 
 // Body - parser enables your app to parse data from incoming request like 
 // form data via urlencode. We need to import this to our app and use them.
@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb://localhost/resthub', { useNewUrlParser: true });
+mongoose.connect('mongodb://localhost/resthub', { useNewUrlParser: true, useUnifiedTopology: true });
 
 var db = mongoose.connection;
 
