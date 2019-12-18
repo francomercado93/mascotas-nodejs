@@ -16,4 +16,19 @@ router.route('/contacts')
         .patch(contactController.update)
         .put(contactController.update)
         .delete(contactController.delete);// Export API routes
+
+
+var mascotaController = require('../controllers/mascotaController');
+router.route('/mascotas')
+    .get(mascotaController.index)
+    .post(mascotaController.new); router.route('/mascotas/:mascota_id')
+        .get(mascotaController.view)
+        .patch(mascotaController.update)
+        .put(mascotaController.update)
+        .delete(mascotaController.delete);
+
+var tipoController = require('../controllers/tipoController');
+router.route('/tipos')
+    .get(tipoController.index)
+
 module.exports = router;

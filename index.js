@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb://localhost/resthub', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost/mascotas', { useNewUrlParser: true, useUnifiedTopology: true });
 
 var db = mongoose.connection;
 
