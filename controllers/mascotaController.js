@@ -1,79 +1,71 @@
-Mascota = require('../models/mascotaModel');
+var mongoose = require('mongoose');
 
-// get de mascotas
-exports.index = function (req, res) {
-    Mascota.get(function (err, mascotas) {
-        if (err) {
-            res.json({
-                status: "error",
-                message: err,
-            });
-        }
-        res.json({
-            status: "success",
-            message: "mascotas retrieved successfully",
-            data: mascotas
-        });
+var Mascota = mongoose.model('Mascota')
+
+exports.findAllMascotas = function (req, res) {
+    Mascota.find(function (err, tipos) {
+        if (err)
+            res.send(500, err.message);
+        console.log('GET/tipos')
+        res.status(200).jsonp(tipos);
     });
 };
 
-// Handle create mascota actions
-exports.new = function (req, res) {
-    var mascota = new Mascota();
-    mascota.nombre = req.body.nombre ? req.body.nombre : mascota.nombre;
-    mascota.tipo = req.body.tipo;
-    mascota.edad = req.body.edad;
-    mascota.descripcion = req.body.descripcion;
-    mascota.imagen = req.body.imagen;
-    mascota.save(function (err) {
-        if (err)
-            res.json(err); res.json({
-                message: 'Nueva mascota creada!',
-                data: mascota
-            });
+//GET - Devuelve una mascota que tiene el id que le pasamos
+exports.findMascotaById = function (req, res) {
+    Mascota.findById(req.params.id, function (err, mascota) {
+        if (err) return res.send(500, err.message);
+        console.log('GET /mascotas/' + req.params.id);
+        res.status(200).jsonp(mascota);
     });
 };
 
-// Handle view mascota info
-exports.view = function (req, res) {
-    mascota.findById(req.params.mascota_id, function (err, mascota) {
-        if (err)
-            res.send(err);
-        res.json({
-            message: 'Detalles de mascota',
-            data: mascota
-        });
-    });
-};// Handle update mascota info
-exports.update = function (req, res) {
-    Mascota.findById(req.params.mascota_id, function (err, mascota) {
-        if (err)
-            res.send(err);
+//POST - Agregar una mascota a la bd
+exports.addMascota = function (req, res) {
+    console.log('POST');
+    console.log(req.body);
 
-        mascota.nombre = req.body.nombre ? req.body.nombre : mascota.nombre;
+    var mascota = new Mascota({
+        nombre: req.body.nombre,
+        tipo: req.body.tipo,
+        edad: req.body.edad,
+        descripcion: req.body.descripcion,
+        imagen: req.body.imagen
+
+    });
+
+    mascota.save(function (err, mascota) {
+        if (err) return res.send(500, err.message);
+        res.status(200).jsonp(mascota);
+    });
+};
+
+//PUT - Actualizar una mascota
+exports.updateMascota = function (req, res) {
+    Mascota.findById(req.body._id, function (err, mascota) {
+        console.log('PUT')
+        console.log(req.body)
+        mascota.nombre = req.body.nombre;
         mascota.tipo = req.body.tipo;
         mascota.edad = req.body.edad;
         mascota.descripcion = req.body.descripcion;
         mascota.imagen = req.body.imagen;
 
         mascota.save(function (err) {
-            if (err)
-                res.json(err);
-            res.json({
-                message: 'Mascota actualizada!',
-                data: mascota
-            });
+            if (err) return res.send(500, err.message);
+            res.status(200).jsonp(mascota);
         });
     });
-};// Handle delete mascota
-exports.delete = function (req, res) {
-    Mascota.remove({
-        _id: req.params.mascota_id
-    }, function (err, mascota) {
-        if (err)
-            res.send(err); res.json({
-                status: "success",
-                message: 'mascota eliminada de la base de datos'
-            });
-    });
+};
+
+//DELETE - Eliminar una mascota de la base de datos con un id
+exports.deleteMascota = function (req, res) {
+    Mascota.deleteOne({ _id: req.params.id }, (err) => {
+        console.log(req.params)
+        if (err) {
+            return res.send(500, err.message);
+        }
+        res.status(200);
+    }
+    );
 };
