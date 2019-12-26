@@ -6,7 +6,6 @@ var mongoose = require('mongoose');
 
 var router = express.Router();
 
-
 mongoose.connect('mongodb://localhost/mascotas', function (err, res) {
   if (err) {
     console.log('ERROR: connecting to Database. ' + err);
@@ -21,8 +20,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(methodOverride());
 
-var tipoModel = require('./models/tipoModel')(app, mongoose);
-var mascotaModel = require('./models/mascotaModel')(app, mongoose);
 var MascotaController = require('./controllers/mascotaController');
 var TIpoController = require('./controllers/tipoController');
 
