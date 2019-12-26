@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 // We need to difine the URL
-var URL = process.env.URL || 'mongodb://localhost/mascotas';
+var URL = process.env.MONGODB_URI || 'mongodb://localhost/mascotas';
 
 mongoose.set('useCreateIndex', true);
 

@@ -11,7 +11,7 @@ mongoose.connect('mongodb://localhost/mascotas', function (err, res) {
   if (err) {
     console.log('ERROR: connecting to Database. ' + err);
   }
-  app.listen(3000, function () {
+  app.listen(process.env.PORT || 3000, function () {
     console.log("Node server running on http://localhost:3000");
   });
 });
