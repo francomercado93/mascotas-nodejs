@@ -6,7 +6,8 @@ exports = module.exports = function (app, mongoose) {
         edad: Number,
         descripcion: String,
         imagen: String
-    });
+    },
+        { versionKey: false });
 
     mongoose.model('Mascota', mascotaSchema);
 };
